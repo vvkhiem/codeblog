@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/user-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:45 GMT -->
+<head th:replace="/ad/fragments :: head(~{ :: title },~{})">
+    <title> Code Blog - Quản lý User </title>
+</head>
+<body>
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" id="menu-btn"> <!-- Menu close button for mobile devices -->
+            <a href="#">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+
+    <!-- content -->
+    <div class="content ">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="d-md-flex gap-4 align-items-center">
+                    <a th:href="@{/admin/quan-ly-user}" class="d-none d-md-flex">All Users</a>
+                    <div class="d-md-flex gap-4 align-items-center">
+                        <div class="mb-3 mb-md-0">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <a href="#" data-bs-toggle="dropdown"
+                                       class="btn form-select"
+                                       aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ced4da; text-align:left;">Lọc</a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a th:href="@{/admin/quan-ly-user/loc/block}" class="dropdown-item">Tài khoản bị Block</a>
+                                        <a th:href="@{/admin/quan-ly-user/loc/tt-cao-nhat}" class="dropdown-item">Tài khoản có lượt tương tác cao nhất</a>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <form class="input-group" th:action="@{/admin/quan-ly-user/tim-kiem}" type="get">
+                                        <input type="text" name="s" class="form-control" placeholder="Search">
+                                        <button class="btn btn-outline-light" type="button">
+                                            <i class="bi bi-search"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dropdown ms-auto d-none">
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="btn btn-primary dropdown-toggle"
+                           aria-haspopup="true" aria-expanded="false">Actions</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a href="#" class="dropdown-item">Action</a>
+                            <a href="#" class="dropdown-item">Another action</a>
+                            <a href="#" class="dropdown-item">Something else here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table id="users" class="table table-custom table-lg">
+                <thead>
+                <tr>
+                    <th class="text-center">Avatar</th>
+                    <th class="text-center">Tên</th>
+                    <th class="text-center">Username</th>
+                    <th class="text-center">Email</th>
+                    <th class="text-center">Tài khoản</th>
+                    <th class="text-center">Vai trò</th>
+                    <th class="text-center">Trạng thái</th>
+                    <th class="text-center">Khác</th>
+                </tr>
+                </thead>
+                <tbody id="tbody">
+                <tr th:each="user : ${users}" class="item">
+                    <td class="text-center">
+                        <a href="#">
+                            <figure class="avatar me-3">
+                                <img th:src="@{${user.avatar}}"
+                                     class="rounded" alt="avatar">
+                            </figure>
+                        </a>
+                    </td>
+                    <td class="text-center" th:text="${user.fullName}"></td>
+                    <td class="text-center" th:text="${user.username}"></td>
+                    <td class="text-center" th:text="${user.email}"></td>
+                    <td class="text-center" th:text="${user.auth_provider}"></td>
+                    <td class="text-center" th:text="${user.role}"></td>
+                    <td class="text-center">
+                        <span class="badge bg-danger" th:if="${!user.active}">Blocked</span>
+                        <span class="badge bg-success" th:if="${user.active}">Active</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="dropdown">
+                            <a href="#" data-bs-toggle="dropdown"
+                               class="btn btn-floating"
+                               aria-haspopup="true" aria-expanded="false">
+                                <i class="bi bi-three-dots"></i>
+                                <input type="hidden" class="u_ID" th:value="${user.accountID}">
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a th:href="@{/admin/xem-binh-luan/{id}(id=${user.accountID})}" class="dropdown-item" >Xem bình luận</a>
+                                <a href="#" class="dropdown-item status-user" th:if="${user.active}">Block</a>
+                                <a href="#" class="dropdown-item status-user" th:if="${!user.active}">Active</a>
+                                <a href="#" class="dropdown-item text-danger delete-user">Xóa</a>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <nav class="mt-4" aria-label="Page navigation example" th:if="${users.size() == 5}">
+            <a class="pagination justify-content-center btn-primary p-2" style="margin-bottom: 45px; border-radius: 30px; cursor: pointer;" id="load-more-user">Xem thêm</a>
+        </nav>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/user-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:45 GMT -->
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from blogzine.webestica.com/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 Sep 2021 12:06:55 GMT -->
+<head th:replace="/us/fragments :: head(~{:: title},~{},~{})">
+    <title>Liên hệ</title>
+</head>
+
+<body>
+
+<!-- =======================
+Header START -->
+<header th:replace="/us/fragments :: header"></header>
+<!-- =======================
+Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+    <!-- =======================
+    Inner intro START -->
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-9 mx-auto text-center">
+                    <h1 class="display-4">Liên hệ</h1>
+                    <!-- breadcrumb -->
+                    <nav class="d-flex justify-content-center" aria-label="breadcrumb">
+                        <ol class="breadcrumb breadcrumb-dots mb-0">
+                            <li class="breadcrumb-item"><a th:href="@{/trang-chu}"><i class="bi bi-house me-1"></i>
+                                Trang chủ</a>
+                            </li>
+                            <li class="breadcrumb-item active">Liên hệ</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Inner intro END -->
+
+    <!-- =======================
+    Contact info START -->
+    <section class="pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <iframe class="w-100 h-300"
+                            src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAyT0VoymXl1dE6r51Hhvcbd49KOKKgiEU&q=Giáo+Xứ+Hà+Thao,+Thao+Nội,+Sơn+Hà,+Phú+Xuyên,+Hà+Nội,+Việt+Nam"
+                            height="500" style="border:0; border-radius: 12px;" aria-hidden="false"
+                            tabindex="0"></iframe>
+
+
+                    <div class="row mt-5">
+                        <div class="col-sm-12">
+                            <h3 style="margin-bottom: 35px;">Thông tin liên lạc </h3>
+                            <address>Địa chỉ : Phú Xuyên, Hà Nội</address>
+                            <p>Call: <a href="#" class="text-reset"><u>0123456789</u></a></p>
+                            <p>Email: <a href="#" class="text-reset"><u>contact@example.com</u></a></p>
+                            <p>Thời gian làm việc : Thứ hai đến thứ bảy
+                                <br>
+                                từ 9:00 sáng tới 23:00 tối
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr class="my-5">
+
+                    <div class="row">
+                        <div class="col-12">
+                            <h2>Liên hệ</h2>
+                            <p style="margin: 35px 0;">Vui lòng điền vào biểu mẫu bên dưới và chúng tôi sẽ sớm liên hệ lại với bạn trong thời gian sớm nhất. Mọi thông tin liên lạc của bạn sẽ được chúng tôi giữ bí mật. Thank you <3</p>
+
+                            <!-- Form START -->
+                            <form class="contact-form" id="contact-form" name="contactform" method="POST"
+                                  th:action="@{/lien-he}" th:object="${contact}">
+                                <!-- Main form -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- name -->
+                                        <div class="mb-3">
+                                            <input required id="con-name" type="text" class="form-control"
+                                                   placeholder="Họ tên" th:field="*{contactName}" maxlength="50">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" >
+                                        <!-- email -->
+                                        <div class="mb-3">
+                                            <input required id="con-email" type="email"
+                                                   class="form-control" placeholder="E-mail" th:field="*{contactEmail}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-9">
+                                        <!-- Title -->
+                                        <div class="mb-3">
+                                            <input required id="con-title" type="text"
+                                                   class="form-control" placeholder="Tiêu đề" th:field="*{contactTitle}"
+                                                   minlength="5" maxlength="100">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <!-- Number Phone -->
+                                        <div class="mb-3">
+                                            <input required id="con-title" type="text"
+                                                   class="form-control" placeholder="Số điện thoại"
+                                                   pattern="^0(3[2-9]|5[6|8|9]|7[0|6-9]|8[0-6|8|9]|9[0-4|6-9])[0-9]{7}$"
+                                                   th:field="*{contactPhone}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <!-- Message -->
+                                        <div class="mb-3">
+                                            <textarea required id="con-message" cols="40" rows="6"
+                                                      class="form-control" placeholder="Tin nhắn" minlength="5"
+                                                      maxlength="500" th:field="*{contactSubject}"></textarea>
+                                        </div>
+                                    </div>
+                                    <!-- submit button -->
+                                    <div class="col-md-12 text-start">
+                                        <button class="btn btn-primary w-100" type="submit">Gửi tin nhắn</button>
+                                    </div>
+                                    <div class="col-md-12" style="text-align:center; margin-top: 12px;">
+                                        <div class="mb-3" th:if="${#fields.hasAnyErrors()}">
+                                            <th:block th:each="err : ${#fields.allErrors()}">
+                                                <span th:text="${err}" style="color: red;"></span><br>
+                                            </th:block>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- Form END -->
+                        </div>
+                    </div>
+                </div>  <!-- Col END -->
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Contact info END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:replace="/us/fragments :: footer"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top"><i class="bi bi-arrow-up-short"></i></div>
+
+<!-- =======================
+JS libraries, plugins and custom scripts -->
+
+<!-- Bootstrap JS -->
+<script src="/us/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Template Functions -->
+<script src="/us/assets/js/functions.js"></script>
+<th:block th:if="${tb}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var message = [[${tb}]];
+        alert(message);
+        /*]]>*/
+    </script>
+</th:block>
+</body>
+
+<!-- Mirrored from blogzine.webestica.com/contact-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 Sep 2021 12:06:55 GMT -->
+</html>

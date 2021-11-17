@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/profile-posts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:45 GMT -->
+<head th:replace="/ad/fragments :: head(~{ :: title },~{})">
+    <title> Code Blog - Quản lý User </title>
+</head>
+<body>
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" > <!-- Menu close button for mobile devices -->
+            <a href="#" id="menu-btn">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+    <!-- content -->
+    <div class="content ">
+
+        <div class="card mb-4">
+            <div class="card-body">
+                <div class="d-md-flex gap-4 align-items-center">
+                    <div class="d-flex info">
+                        <div class="avatar">
+                            <img th:src="@{${account.avatar}}" class="rounded" alt="avatar">
+                        </div>
+                        <div style="margin-left: 20px;">
+                            <div class="d-flex align-items-center mb-1">
+                                <h5 class="m-0" th:text="${account.fullName}"></h5>
+                                <span class="badge bg-success" style="margin-left:15px;" th:if="${account.active}">Active</span>
+                                <span class="badge bg-danger" style="margin-left:15px;" th:if="${!account.active}">Block</span>
+                                <input type="hidden" class="u_ID" th:value="${account.accountID}">
+                            </div>
+                            <p class="m-0" th:text="${account.email}"></p>
+                        </div>
+                    </div>
+                    <div class="dropdown ms-auto">
+                        <a href="#" data-bs-toggle="dropdown"
+                           class="btn btn-primary dropdown-toggle"
+                           aria-haspopup="true" aria-expanded="false">Actions</a>
+                        <div class="dropdown-menu dropdown-menu-end">
+                            <a href="#" class="dropdown-item status-user" th:if="${account.active}">Block</a>
+                            <a href="#" class="dropdown-item status-user" th:if="${!account.active}">Active</a>
+                            <a href="#" class="dropdown-item back">Quay lại trang trước</a>
+                            <a href="#" class="dropdown-item text-danger" id="delete-all-cmt">Xóa tất cả bình luận</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            <th:block th:each="post : ${posts}">
+                <div class="col-lg-6 col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex mb-3">
+                                <div class="d-flex">
+                                    <a th:href="@{/bai-viet/{id}(id=${post.postID})}"><h2 th:text="${post.postTitle}"></h2></a>
+                                </div>
+                            </div>
+                            <p th:text="${#strings.substring(post.postDescription,0,100)} + ' .....'"></p>
+                            <div class="mt-4">
+                                <th:block th:each="comment : ${post.comments}">
+                                    <div class="card card-body mb-4 item" style="padding: 0 1.5rem !important;">
+                                        <div class="d-flex">
+                                            <div class="d-flex align-items-center">
+                                                <small class="text-muted" th:text="${comment.commentDate}"></small>
+                                            </div>
+                                            <div class="dropdown ms-auto">
+                                                <a href="#" class="btn" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots"></i>
+                                                    <input type="hidden" th:value="${comment.commentID}" class="c_ID">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a href="#" class="dropdown-item delete-cmt">Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="m-0 pb-3" th:text="${comment.commentContent}"></p>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/profile-posts.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:45 GMT -->
+</html>

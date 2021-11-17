@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from blogzine.webestica.com/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 Sep 2021 12:06:53 GMT -->
+<head th:replace="/us/fragments :: head(~{ :: title },~{}, ~{})">
+    <title>Giới thiệu</title>
+</head>
+
+<body>
+
+<!-- =======================
+Header START -->
+<header th:replace="/us/fragments :: header"></header>
+<!-- =======================
+Header END -->
+
+<!-- **************** MAIN CONTENT START **************** -->
+<main>
+
+    <!-- =======================
+    Inner intro START -->
+    <section class="pt-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card bg-dark-overlay-4 overflow-hidden card-bg-scale h-400 text-center"
+                         style="background-image:url(/us/assets/images/blog/16by9/09.jpg); background-position: center left; background-size: cover;">
+                        <!-- Card Image overlay -->
+                        <div class="card-img-overlay d-flex align-items-center p-3 p-sm-4">
+                            <div class="w-100 my-auto">
+                                <h1 class="text-white display-4">Giới thiệu</h1>
+                                <!-- breadcrumb -->
+                                <nav class="d-flex justify-content-center" aria-label="breadcrumb">
+                                    <ol class="breadcrumb breadcrumb-dark breadcrumb-dots mb-0">
+                                        <li class="breadcrumb-item"><a th:href="@{/trang-chu}"><i
+                                                class="bi bi-house me-1"></i> Trang chủ</a></li>
+                                        <li class="breadcrumb-item active">Giới thiệu</li>
+                                    </ol>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    Inner intro END -->
+
+    <!-- =======================
+    About START -->
+    <section class="pt-4 pb-0">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <h2 style="margin-bottom: 35px;">Tổng quan về Code Blog</h2>
+                    <span class="lead">
+                        <span>Được hoàn thiện cơ bản vào khoảng đầu tháng 11/2021, Code Blog được sinh ra với mục đích chia sẻ kiến thức, kinh nghiệm lập trình nhằm giúp ích cho những bạn có niềm đam mê lớn lao với các ngôn ngữ lập trình. Ngoài ra, đây cũng là nơi chúng tôi chia sẻ những bài viết mang tính chuyên môn, đưa ra những gợi ý, định hướng cho các bạn mới bắt đầu học lập trình có thể tìm hiểu, bổ trợ cũng như củng cố kiến thức cho các bạn sau này. Tuy nhiên, hiện nay trang web mới chỉ dừng lại ở mức <span
+                                style="color:#e74c3c"><strong>Demo</strong>&nbsp;</span>sản phẩm. Trong tương lai, chúng tôi vẫn sẽ tiếp tục phát triển, hoàn thiện hơn nữa để có thể đưa vào hoạt động chính thức.</span>
+
+<p>Giới thiệu sơ qua về các công nghệ mà chúng tôi sử dụng để phát triển :&nbsp;</p>
+
+<ul>
+	<li>Spring Boot : Là nền tảng cốt lõi của dự án.&nbsp;Đây là một module của Spring Framework, cung cấp tính năng RAD (Rapid Application Development) &ndash; Phát triển ứng dụng nhanh.</li>
+	<li>Spring Data JPA : Đây cũng&nbsp;là một module của&nbsp;<strong>Spring Framework</strong>. Mục đích của&nbsp;<strong>Spring Data</strong>&nbsp;<strong>JPA&nbsp;</strong>là<strong>&nbsp;</strong>giảm thiểu việc thực hiện quá nhiều bước để có thể implement được JPA. Spring Data JPA là một phần của Spirng Data và nó hỗ trợ Hibernate 5, OpenJPA 2.4 và EclipseLink 2.6.1.</li>
+	<li>Spring Security : Khi làm việc với <strong>Spring Framework</strong>, để thực hiện việc phân quyền cũng như xác thực người dùng thì không thể không nhắc đến <strong>Spring Secuirity</strong>. Đây cũng là một thành viên nổi bật trong gia đình Spring.</li>
+	<li>Thymeleaf : Đây&nbsp;là một&nbsp;<strong>Java Template Engine</strong>&nbsp;hiện đại, hoạt động tại phía máy chủ (server side) cho cả hai môi trường Web và môi trường tiêu chuẩn. Nó có khả năng xử lý&nbsp;<strong>HTML, XML, Javascript, CSS</strong>&nbsp;thậm chí các văn bản thô (plain text).</li>
+	<li>Ngoài ra, để phát triển tính năng bình luận realtime, chúng tôi có sử dụng đến <strong>Web Socket</strong> (giao thức hỗ trợ hai chiều giữa client và server theo thời gian thực), <strong>Ajax</strong> (Asynchronous Javascript and XML) hỗ trợ cho việc phát triển tính năng load thêm bài viết, ....</li>
+</ul>
+                    </span>
+                    <!-- Team START -->
+                    <h2 class="mb-3 mt-5">Về tôi</h2>
+                    <div class="row g-4">
+                        <!-- Team item-->
+                        <div class="col-sm-6 col-lg-12">
+                            <div class="text-center">
+                                <div class="col-12">
+                                    <!-- Author info START -->
+                                    <div class="bg-primary-soft d-md-flex p-3 p-sm-4 my-3 text-center text-md-start rounded">
+                                        <!-- Avatar -->
+                                        <div class=" me-0 me-md-4">
+                                            <div class="avatar avatar-xxl">
+                                                <img class="avatar-img rounded-circle"
+                                                     src="/us/assets/images/avatar/author.jpg" alt="avatar">
+                                            </div>
+                                            <!-- Post count -->
+                                            <div class="text-center mt-n3 position-relative">
+                                                <span class="badge bg-danger fs-6"><span
+                                                        th:text="${countAllPosts}"></span> bài viết</span>
+                                            </div>
+                                        </div>
+                                        <!-- Info -->
+                                        <div>
+                                            <small style="font-size:30px;">Vũ Văn Khiêm</small>
+                                            <p style="font-weight: 500; margin : 0;">Java Backend Developer</p>
+                                            <p class="my-2">Xin chào, mình là Khiêm, sinh năm 2000.<br>Hiện tại, mình
+                                                đang là sinh viên năm thứ 4 tại Học viện Kĩ thuật mật mã (KMA) chuyên
+                                                ngành An toàn thông tin. Hi vọng những bài viết do mình chia sẻ sẽ giúp
+                                                ích được cho các bạn. </p>
+                                            <!-- Social icons -->
+                                            <ul class="nav justify-content-center justify-content-md-start">
+                                                <li class="nav-item">
+                                                    <a class="nav-link ps-0 pe-2 fs-5" href="#"><i
+                                                            class="fab fa-facebook-square"></i></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link px-2 fs-5" href="#"><i
+                                                            class="fab fa-twitter-square"></i></a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link px-2 fs-5" href="#"><i
+                                                            class="fab fa-linkedin"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- Author info END -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Team END -->
+
+                </div>  <!-- Col END -->
+            </div>
+        </div>
+    </section>
+    <!-- =======================
+    About END -->
+
+</main>
+<!-- **************** MAIN CONTENT END **************** -->
+
+<!-- =======================
+Footer START -->
+<footer th:replace="/us/fragments :: footer"></footer>
+<!-- =======================
+Footer END -->
+
+<!-- Back to top -->
+<div class="back-top"><i class="bi bi-arrow-up-short"></i></div>
+
+<!-- =======================
+JS libraries, plugins and custom scripts -->
+
+<!-- Bootstrap JS -->
+<script src="/us/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Template Functions -->
+<script src="/us/assets/js/functions.js"></script>
+
+</body>
+
+<!-- Mirrored from blogzine.webestica.com/about-us.html by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 19 Sep 2021 12:06:55 GMT -->
+</html>

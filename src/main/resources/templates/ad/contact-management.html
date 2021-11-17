@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:39 GMT -->
+<head th:replace="/ad/fragments :: head(~{ :: title },~{})">
+    <title> Code Blog - Quản lý liên lạc</title>
+</head>
+<body>
+
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" id="menu-btn"> <!-- Menu close button for mobile devices -->
+            <a href="#">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+
+    <!-- content -->
+    <div class="content ">
+
+        <div class="row">
+            <div class="col-lg-8" style="margin-top:3px;">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <form class="mt-4 mt-md-0" th:action="@{/admin/lien-lac/tim-kiem}" method="get">
+                            <div class="input-group">
+                                <input type="text" name="s" class="form-control" th:placeholder="${s != null ? s : 'Tìm kiếm'}">
+                                <button class="btn btn-outline-light" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="email-list">
+                    <ul class="list-group" id="addItems">
+                        <th:block th:each="contact : ${contacts}">
+                            <li class="list-group-item text-success item">
+
+                                <div class="d-none d-sm-block flex-shrink-0">
+                                    <i class="add-star bi bi-eye-slash-fill fs-5 me-3 text-danger" th:if="${!contact.contactStatus}"></i>
+                                    <i class="add-star bi bi-eye-fill fs-5 me-3 text-success" th:if="${contact.contactStatus}"></i>
+                                </div>
+                                <div class="d-none d-sm-block flex-shrink-0">
+                                    <figure class="avatar avatar-user me-3">
+                                        <span class="avatar-text rounded-circle" th:text="${#strings.substring(contact.contactName,0,1)}"></span>
+                                    </figure>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="mb-1 d-flex justify-content-between align-items-center">
+                                        <div class="align-items-center d-flex">
+                                            <h6 class="text-truncate mb-0" th:text="${contact.contactName}"></h6>
+                                            <span class="text-nowrap text-muted d-none d-sm-block" style="margin-left: 10px;" th:text="'<' + ${contact.contactEmail} + '>'"></span>
+                                        </div>
+                                        <div class="ps-3 d-flex">
+                                            <span class="text-nowrap text-muted" th:text="${contact.contactDate}"></span>
+                                            <div class="dropdown ms-3">
+                                                <a href="#" class="btn btn-floating btn-sm" data-bs-toggle="dropdown">
+                                                    <i class="bi bi-three-dots"></i>
+                                                    <input type="hidden" class= "ct_ID" th:value="${contact.contactID}">
+                                                </a>
+                                                <div class="dropdown-menu dropdown-menu-end">
+                                                    <a class="dropdown-item" th:href="@{/admin/lien-lac/xem-chi-tiet/{id}(id=${contact.contactID})}">Xem chi tiết</a>
+                                                    <a class="dropdown-item text-danger delete-item-contact" href="#" >Xóa</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-muted d-flex justify-content-between">
+                                        <div class="text-truncate" th:text="${contact.contactSubject}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </th:block>
+                    </ul>
+                </div>
+
+                <nav aria-label="Page navigation example" th:if="${contacts.size() == 5}">
+                    <a class="pagination justify-content-center btn-primary p-2" style="margin-bottom: 45px; border-radius: 30px; cursor: pointer;" id="load-more-contact">Xem thêm</a>
+                </nav>
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style=" top: 27px;">
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column gap-2">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center" th:href="@{/admin/lien-lac/}" th:classappend="${opt.equals('tat-ca')}?'active':''">
+                                    Xem tất cả
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/chua-xem}" th:classappend="${opt.equals('chua-xem')}?'active':''">
+                                    <span class="bi bi-eye-slash me-3"></span> Tin nhắn chưa xem
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/da-xem}" th:classappend="${opt.equals('da-xem')}?'active':''">
+                                    <span class="bi bi-eye me-3"></span> Tin nhắn đã xem
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/tra-loi}" th:classappend="${opt.equals('tra-loi')}?'active':''">
+                                    <span class="bi bi-reply me-3"></span> Tin nhắn đã trả lời
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center text-danger" id="delete-all-contact" href="#">
+                                    <span class="bi bi-trash me-3"></span> Xóa tất cả
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="compose">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Compose Email</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="mb-3">
+                                <input type="text" class="form-control tagsinput" placeholder="To"
+                                       value="example@test.com.tr" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="text" class="form-control" placeholder="Subject" required>
+                            </div>
+                            <div class="mb-4">
+                                <div class="compose-quill-editor mb-3"></div>
+                                <div class="d-flex justify-content-between">
+                                    <div class="compose-quill-toolbar">
+                                <span class="ql-formats me-0">
+                                    <button class="ql-bold"></button>
+                                    <button class="ql-italic"></button>
+                                    <button class="ql-underline"></button>
+                                    <button class="ql-link"></button>
+                                    <button class="ql-image"></button>
+                                </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary">Send</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+<script>
+    var arr = ['avatar-info','avatar-danger','avatar-warning','avatar-secondary','avatar-success'];
+    var avatar = document.getElementsByClassName('avatar-user');
+    for (let i = 0; i < avatar.length ; i++) {
+        var rnd = Math.floor(Math.random() * avatar.length);
+        avatar[i].classList.add(arr[rnd]);
+    }
+</script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:41 GMT -->
+</html>

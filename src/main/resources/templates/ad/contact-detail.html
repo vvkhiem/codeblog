@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:39 GMT -->
+<head th:replace="/ad/fragments :: head(~{ :: title },~{})">
+    <title> Code Blog - Quản lý liên lạc </title>
+</head>
+<body>
+
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" id="menu-btn"> <!-- Menu close button for mobile devices -->
+            <a href="#">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+
+    <!-- content -->
+    <div class="content ">
+
+        <div class="row">
+            <div class="col-lg-8" style="margin-top:3px;">
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <form class="mt-4 mt-md-0" th:action="@{/admin/lien-lac/tim-kiem}" method="get">
+                            <div class="input-group">
+                                <input type="text" name="s" class="form-control"
+                                       th:placeholder="${s != null ? s : 'Tìm kiếm'}">
+                                <button class="btn btn-outline-light" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="content mb-4 item">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="mb-0" th:text="${contact.contactTitle}">
+                            </h3>
+                            <div class="d-flex align-items-center my-4">
+                                <div class="d-flex align-items-center">
+                                    <div class="d-none d-sm-block flex-shrink-0">
+                                        <figure class="avatar avatar-user me-3">
+                                            <span class="avatar-text rounded-circle" th:text="${#strings.substring(contact.contactName,0,1)}"></span>
+                                        </figure>
+                                    </div>
+                                    <div>
+                                        <div class="align-items-center d-flex mb-1">
+                                            <h6 class="m-0" th:text="${contact.contactName}"></h6>
+                                            <span class="d-sm-inline fw-normal d-none text-muted ms-2">&lt;<span th:text="${contact.contactEmail}"></span>&gt;</span>
+                                        </div>
+                                        <span class="small text-muted">Số điện thoại : <span th:text="${contact.contactPhone}"></span></span>
+                                    </div>
+                                </div>
+                                <div class="ms-auto d-none d-md-flex align-items-center gap-3">
+                                    <span class="text-muted" th:text="${contact.contactDate}"></span>
+                                    <div class="dropdown">
+                                        <a href="#" data-bs-toggle="dropdown" class="btn btn-sm" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="bi bi-three-dots"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a href="#" class="dropdown-item text-danger delete-item-contact">Xóa</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mb-4" th:text="${contact.contactSubject}">
+
+                            </div>
+                            <h6 class="mb-3">Trả lời</h6>
+                            <form th:action="@{/admin/lien-lac/tra-loi}" method="post">
+                                <input type="hidden" name="ctID" class="ct_ID" th:value="${contact.contactID}">
+                                <input type="text" class="form-control mb-4" name="title" placeholder="Tiêu đề" required>
+                                <div class="mb-4">
+                                    <div class="mail-reply-editor-toolbar">
+                                        <textarea class="form-control" name="message" placeholder="Nhập tin nhắn" required></textarea>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary col-12">Gửi</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card sticky-top" style=" top: 27px;">
+                    <div class="card-body">
+                        <ul class="nav nav-pills flex-column gap-2">
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center" th:href="@{/admin/lien-lac/}"
+                                   th:classappend="${opt.equals('tat-ca')}?'active':''">
+                                    Xem tất cả
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/chua-xem}"
+                                   th:classappend="${opt.equals('chua-xem')}?'active':''">
+                                    <span class="bi bi-eye-slash me-3"></span> Tin nhắn chưa xem
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/da-xem}"
+                                   th:classappend="${opt.equals('da-xem')}?'active':''">
+                                    <span class="bi bi-eye me-3"></span> Tin nhắn đã xem
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:href="@{/admin/lien-lac/tra-loi}"
+                                   th:classappend="${opt.equals('tra-loi')}?'active':''">
+                                    <span class="bi bi-reply me-3"></span> Tin nhắn đã trả lời
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link d-flex align-items-center text-danger" id="delete-all-contact"
+                                   href="#">
+                                    <span class="bi bi-trash me-3"></span> Xóa tất cả
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+<script>
+    var arr = ['avatar-info', 'avatar-danger', 'avatar-warning', 'avatar-secondary', 'avatar-success'];
+    var avatar = document.getElementsByClassName('avatar-user');
+    for (let i = 0; i < avatar.length; i++) {
+        var rnd = Math.floor(Math.random() * avatar.length);
+        avatar[i].classList.add(arr[rnd]);
+    }
+</script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/email.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:41 GMT -->
+</html>

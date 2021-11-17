@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/ad/fragments :: head(~{ :: title},~{ :: link })">
+    <title> Code Blog - Thêm, Cập nhật bài viết </title>
+    <!-- CSS -->
+</head>
+<body>
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" id="menu-btn"> <!-- Menu close button for mobile devices -->
+            <a href="#">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+    <!-- content -->
+    <div class="content ">
+
+        <!--Form post-->
+        <div class="row" th:if="${pid == 0}">
+            <div class="card col-md-11 p-4 p-md-5">
+                <form class="row g-3" enctype="multipart/form-data" method="post" th:action="@{/admin/bai-viet/}" th:object="${post}">
+                    <div class="col-md-12">
+                        <label for="inputEmail4" class="form-label">Tiêu đề bài viết</label>
+                        <input type="text" th:field="*{postTitle}" class="form-control" id="inputEmail4" required>
+                    </div>
+                    <img class="img-fluid col-md-8" id="output" src="">
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Hình ảnh tiêu đề</label>
+                        <input class="form-control" name="image" type="file" id="formFile" accept="image/*" onchange="loadFile(event)" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputState" class="form-label">Danh mục</label>
+                        <select id="inputState" th:field="*{category_categoryName}" class="form-select" required>
+                            <th:block th:each="category : ${categories}">
+                                <option th:value="${category.categoryName}" th:text="${category.categoryName}"></option>
+                            </th:block>
+
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Nội dung tóm tắt</label>
+                        <textarea class="form-control" th:field="*{postDescription}" id="exampleFormControlTextarea1" rows="3" required></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTag" class="form-label">Tags</label>
+                        <input type="text" th:name="strTags" class="form-control tagsinput-example" placeholder="Tags" th:value="${stringTag}" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label" >Nội dung bài viết</label>
+                        <textarea class="form-control" th:field="*{postContent}" id="editor" rows="3" required></textarea>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" th:field="*{postSlide}" type="checkbox" id="flexSwitchCheckDefault" value="true">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Bài viết nổi bật (* bài viết sẽ được hiển thị trên Silde của trang chủ)</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">Thêm bài viết</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <!--Form put-->
+        <div class="row" th:if="${pid != 0}">
+            <div class="card col-md-11 p-4 p-md-5">
+                <form class="row g-3" enctype="multipart/form-data" th:method="put" th:action="@{/admin/bai-viet/{id}(id=${pid})}" th:object="${post}">
+                    <div class="col-md-12">
+                        <label for="inputEmail4" class="form-label">Tiêu đề bài viết</label>
+                        <input type="text" th:name="postTitle" class="form-control" id="inputEmail4" required th:value="${p.postTitle}">
+                    </div>
+                    <img class="img-fluid col-md-8" id="output" th:src="@{${p.postImage}}">
+                    <div class="col-md-6">
+                        <label for="formFile" class="form-label">Hình ảnh tiêu đề</label>
+                        <input class="form-control" name="image" type="file" id="formFile" accept="image/*" onchange="loadFile(event)">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="inputState" class="form-label">Danh mục</label>
+                        <select id="inputState" th:name="category_categoryName" class="form-select" >
+                            <th:block th:each="category : ${categories}">
+                                <option th:value="${category.categoryName}" th:text="${category.categoryName}" th:selected="${category.categoryName.equals(p.category.categoryName)}" ></option>
+                            </th:block>
+
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label">Nội dung tóm tắt</label>
+                        <textarea class="form-control" th:name="postDescription" id="exampleFormControlTextarea1" rows="3" required th:text="${p.postDescription}"></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTag" class="form-label">Tags</label>
+                        <input type="text" th:name="strTags" class="form-control tagsinput-example" placeholder="Tags" th:value="${stringTag}" required>
+                    </div>
+                    <div class="col-12">
+                        <label for="exampleFormControlTextarea1" class="form-label" >Nội dung bài viết</label>
+                        <textarea class="form-control" th:name="postContent" id="editor" rows="3" required th:text="${p.postContent}"></textarea>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" th:name="postSlide" type="checkbox" id="flexSwitchCheckDefault" value="true" th:checked="${p.postSlide == true}">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Bài viết nổi bật (* bài viết sẽ được hiển thị trên Silde của trang chủ)</label>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">Cập nhật bài viết</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Javascript -->
+<script src="/ckeditor/ckeditor.js"></script>
+<script src="/ckeditor/config.js"></script>
+<script src="/ckfinder/ckfinder.js"></script>
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+<!-- Javascript -->
+<script src="/ad/libs/tagsinput/bootstrap-tagsinput.js"></script>
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+<script src="/ad/assets/js/examples/tagsinput.js"></script>
+<script>
+    var conf = {};
+    conf.toolbarGroups = [
+        { name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
+        { name: 'clipboard', groups: [ 'clipboard', 'undo' ] },
+        { name: 'editing', groups: [ 'find', 'selection', 'spellchecker', 'editing' ] },
+        { name: 'forms', groups: [ 'forms' ] },
+        { name: 'basicstyles', groups: [ 'cleanup', 'basicstyles' ] },
+        { name: 'colors', groups: [ 'colors' ] },
+        { name: 'links', groups: [ 'links' ] },
+        { name: 'paragraph', groups: [ 'list', 'indent', 'blocks', 'align', 'bidi', 'paragraph' ] },
+        { name: 'insert', groups: [ 'insert' ] },
+        { name: 'styles', groups: [ 'styles' ] },
+        { name: 'tools', groups: [ 'tools' ] },
+        { name: 'others', groups: [ 'others' ] },
+        { name: 'about', groups: [ 'about' ] }
+    ];
+
+    conf.removeButtons = 'Form,Checkbox,Radio,TextField,Textarea,Select,Button,ImageButton,HiddenField,SelectAll,Scayt,Print,Language,BidiLtr,BidiRtl,Anchor,About';
+    conf.entities_latin = false;
+    conf.extraPlugins = 'codesnippet,youtube,contents,blockquote';
+    conf.codeSnippet_theme = 'github';
+    var editor = CKEDITOR.replace('editor',conf);
+    CKFinder.setupCKEditor(editor , "/ckfinder/");
+
+    $("input.tagsinput-example").tagsinput('items');
+
+    var loadFile = function (event) {
+        var output = document.getElementById('output');
+        output.src = URL.createObjectURL(event.target.files[0]);
+        output.onload = function () {
+            URL.revokeObjectURL(output.src) // free memory
+        }
+    };
+</script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/product-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:33 GMT -->
+</html>

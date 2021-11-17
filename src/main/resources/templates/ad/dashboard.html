@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:replace="/ad/fragments :: head(~{ :: title},~{})">
+    <title> Code Blog - Quản lý bài viết </title>
+</head>
+<body>
+<!-- menu -->
+<div th:replace="/ad/fragments :: menu"></div>
+<!-- ./  menu -->
+
+<!-- layout-wrapper -->
+<div class="layout-wrapper">
+
+    <!-- header -->
+    <div class="header d-lg-none mt-4 h-25">
+        <div class="menu-toggle-btn" style="z-index: 10;" id="menu-btn"> <!-- Menu close button for mobile devices -->
+            <a href="#">
+                <i class="bi bi-list"></i>
+            </a>
+        </div>
+        <!-- Logo -->
+        <div class="text-center w-100" style="margin-left: -55px;">
+            <a th:href="@{/}"><img width="170" src="/us/assets/images/logo.svg" alt="logo"></a>
+        </div>
+        <!-- ./ Logo -->
+    </div>
+    <!-- ./ header -->
+
+    <!-- content -->
+    <div class="content ">
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-lg-12 custom-header">
+                            <div class="col-12 col-lg-3" style="padding: 12px 0;">All Products</div>
+                            <div class="col-12 col-lg-6">
+                                <div class="mb-3 mb-md-0">
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <a href="#" data-bs-toggle="dropdown"
+                                               class="btn form-select"
+                                               aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ced4da; text-align:left;">Sắp xếp</a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a th:href="@{/admin/sap-xep/moi-cu}" class="dropdown-item">Bài viết mới đến cũ</a>
+                                                <a th:href="@{/admin/sap-xep/cu-moi}" class="dropdown-item">Bài viết cũ đến mới</a>
+                                                <a th:href="@{/admin/sap-xep/lout-xem-nhieu-nhat}" class="dropdown-item">Bài viết có nhiều lượt xem nhất</a>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <a href="#" data-bs-toggle="dropdown"
+                                               class="btn form-select"
+                                               aria-haspopup="true" aria-expanded="false" style="border: 1px solid #ced4da; text-align:left;">Lọc</a>
+                                            <div class="dropdown-menu dropdown-menu-end">
+                                                <a th:href="@{/admin/loc-bai-viet/noi-bat}" class="dropdown-item">Bài viết nổi bật</a>
+                                                <div class="dropdown-item">Lọc theo ngày đăng</div>
+                                                <form method="get" style="display: flex;" th:action="@{/admin/loc-bai-viet/ngay-dang}">
+                                                    <input type="date" name="d" class="form-control" style="width: 70%; margin-left: 12px;">
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Lọc
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dropdown ms-auto">
+                                <a href="#" data-bs-toggle="dropdown"
+                                   class="btn btn-primary dropdown-toggle"
+                                   aria-haspopup="true" aria-expanded="false">Actions</a>
+                                <div class="dropdown-menu dropdown-menu-end">
+                                    <a th:href="@{/admin/bai-viet/}" class="dropdown-item">Thêm bài viết</a>
+                                    <a href="#" class="dropdown-item">Xóa tất cả</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-custom table-lg mb-0" id="products">
+                        <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Hình ảnh</th>
+                            <th class="text-center">Tiêu đề</th>
+                            <th class="text-center">Danh mục</th>
+                            <th class="text-center">Ngày tạo</th>
+                            <th class="text-center">Khác</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbody">
+
+                        <tr th:each="post : ${posts}" class="item">
+                            <td>
+                                <a href="#" th:text=" '#' + ${post.postID}"></a>
+                            </td>
+                            <td class="text-center">
+                                <a href="#">
+                                    <img th:src="@{${post.postImage}}" class="rounded" width="40"
+                                         alt="...">
+                                </a>
+                            </td>
+                            <td class="text-center" th:text="${post.postTitle}"></td>
+                            <td class="text-center" th:text="${post.category_categoryName}">
+
+                            </td>
+                            <td class="text-center" th:text="${post.postDate}"></td>
+                            <td class="text-center">
+                                <div class="d-flex">
+                                    <div class="dropdown ms-auto">
+                                        <a href="#" data-bs-toggle="dropdown"
+                                           class="btn btn-floating"
+                                           aria-haspopup="true" aria-expanded="false">
+                                            <i class="bi bi-three-dots"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <a th:href="@{/admin/bai-viet/(pid=${post.postID})}" class="dropdown-item">Cập nhật</a>
+                                            <a href="#" class="dropdown-item text-danger delete">Xóa</a>
+                                            <input type="hidden" th:value="${post.postID}" class="p_ID">
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+                <nav class="mt-4" aria-label="Page navigation example" th:if="${posts.size() == 5}">
+                    <a class="pagination justify-content-center btn-primary p-2" style="margin-bottom: 45px; border-radius: 30px; cursor: pointer;" id="load-more">Xem thêm</a>
+                </nav>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                             aria-expanded="true" data-bs-target="#keywordsCollapseExample" role="button">
+                            <div>Tìm kiếm</div>
+                            <div class="bi bi-chevron-down"></div>
+                        </div>
+                        <form class="collapse show mt-4" id="keywordsCollapseExample" method="get" th:action="@{/admin/tim-kiem}">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="s" placeholder="Nhập từ khóa .....">
+                                <button class="btn btn-outline-light" type="button">
+                                    <i class="bi bi-search"></i>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-center" data-bs-toggle="collapse"
+                             aria-expanded="true" data-bs-target="#categoriesCollapseExample" role="button">
+                            <div>Danh mục</div>
+                            <div class="bi bi-chevron-down"></div>
+                        </div>
+                        <div class="collapse show mt-4" id="categoriesCollapseExample">
+                            <div class="d-flex flex-column gap-3">
+                                <th:block th:each="category : ${categories}">
+                                    <div class="">
+                                        <a th:href="@{/admin/danh-muc(c=${category.categoryName})}" th:text="${category.categoryName} + ' (' + ${category.numberPosts} + ') '"></a>
+                                    </div>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="mb-3">Thêm danh mục mới</div>
+                            <form method="post" style="display: flex;" th:action="@{/admin/}">
+                                <input type="text" name="c" class="me-1 form-control" style="width: 65%;" placeholder="Tên danh mục ...">
+                                <button type="submit" class="btn btn-danger">
+                                    Thêm
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <span class="me-2">Tags : </span>
+                        <th:block th:each="tag : ${tags}">
+                            <a th:href="@{/admin/tag/{t}(t=${tag.tagName})}"><span class="badge" th:text="${tag.tagName}"></span></a>
+                        </th:block>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <!-- ./ content -->
+
+</div>
+<!-- ./ layout-wrapper -->
+
+<!-- Bundle scripts -->
+<script src="/ad/libs/bundle.js"></script>
+
+<!-- Range slider -->
+<script src="/ad/libs/range-slider/js/ion.rangeSlider.min.js"></script>
+
+<!-- Examples -->
+<script src="/ad/assets/js/examples/products.js"></script>
+
+<!-- Main Javascript file -->
+<script src="/ad/assets/js/app.min.js"></script>
+<script src="/ad/assets/js/main.js"></script>
+<script>
+    var randomBgClass = ['bg-pink','bg-danger', 'bg-primary', 'bg-warning', 'bg-success','bg-cyan','bg-indigo', 'bg-blue', 'bg-orange'];
+    var badgeClass = document.getElementsByClassName('badge');
+    for (let i = 0; i < badgeClass.length; i++) {
+        var rng = Math.floor(Math.random() * randomBgClass.length);
+        badgeClass[i].classList.add(randomBgClass[rng]);
+    }
+</script>
+</body>
+
+<!-- Mirrored from vetra.laborasyon.com/demos/default/product-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 09 Jul 2021 19:07:33 GMT -->
+</html>

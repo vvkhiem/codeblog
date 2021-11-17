@@ -1,0 +1,84 @@
+<!DOCTYPE html >
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title,link)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title th:replace="${title}"></title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" th:href="@{/us/assets/images/favicon.ico}"/>
+    <link rel="stylesheet" th:href="@{/ad/libs/tagsinput/bootstrap-tagsinput.css}" type="text/css">
+
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&amp;display=swap"
+          rel="stylesheet">
+
+    <!-- Bootstrap icons -->
+    <link rel="stylesheet" th:href="@{/ad/assets/icons/bootstrap-icons-1.4.0/bootstrap-icons.min.css}" type="text/css">
+    <!-- Bootstrap Docs -->
+    <link rel="stylesheet" th:href="@{/ad/assets/css/bootstrap-docs.css}" type="text/css">
+
+    <!-- Main style file -->
+    <link rel="stylesheet" th:href="@{/ad/assets/css/app.css}" type="text/css">
+
+    <script src="https://cdn.tiny.cloud/1/byeva8rtodve438xn8tqjyym9s1a8ahjk1z0v0p4pfbgi234/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+
+</head>
+<body>
+<div class="menu" th:fragment="menu" style="padding: 25px 0;" id="show-menu">
+    <div class="menu-close-btn d-lg-none"><i class="bi bi-x fs-1 me-3 float-end"></i></div>
+    <div class="menu-body">
+        <div class="dropdown">
+            <a th:href="@{/trang-chu}" class="d-flex align-items-center justify-content-center">
+                <img width="170" src="/us/assets/images/logo.svg"
+                     alt="image">
+            </a>
+        </div>
+        <ul>
+            <li>
+                <a th:href="@{/admin/}" th:class="${active == 1} ? 'active' : ''">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-receipt"></i>
+                    </span>
+                    <span>Quản lý bài viết</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/quan-ly-user}" th:class="${active == 2} ? 'active' : ''">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </span>
+                    <span>Quản lý người dùng</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/lien-lac/}" th:class="${active == 3} ? 'active' : ''">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-envelope"></i>
+                    </span>
+                    <span>Quản lý liên lạc</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/admin/qltt-ca-nhan/}" th:class="${active == 4} ? 'active' : ''">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-person-bounding-box"></i>
+                    </span>
+                    <span>Quản lý thông tin cá nhân</span>
+                </a>
+            </li>
+            <li>
+                <a th:href="@{/logout}" class="bg-danger mt-3" style="padding: 0 28px; color: white;">
+                    <span class="nav-link-icon">
+                        <i class="bi bi-box-arrow-in-left fs-2"></i>
+                    </span>
+                    <span>Đăng xuất</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
